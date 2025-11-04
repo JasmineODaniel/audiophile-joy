@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CategoryCard } from "@/components/CategoryCard";
@@ -6,8 +6,9 @@ import { Button } from "@/components/ui/button";
 import { getProductsByCategory } from "@/lib/products";
 
 const Category = () => {
-  const { category } = useParams<{ category: string }>();
-  const products = getProductsByCategory(category || "");
+  const location = useLocation();
+  const category = location.pathname.substring(1);
+  const products = getProductsByCategory(category);
 
   return (
     <div className="min-h-screen flex flex-col">
