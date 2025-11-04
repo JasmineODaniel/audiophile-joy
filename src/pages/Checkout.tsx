@@ -259,6 +259,6 @@ const Checkout = () => {
       <Footer />
     </div>
   );
-};
+}; 
 
 export default Checkout;
