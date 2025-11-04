@@ -80,9 +80,15 @@ const Checkout = () => {
 
       <div className="container mx-auto px-6 lg:px-24 pb-32">
         <div className="grid lg:grid-cols-3 gap-8">
-          <form onSubmit={handleSubmit} className="lg:col-span-2 bg-white rounded-lg p-8 lg:p-12">
-            <h1 className="text-3xl font-bold tracking-wider uppercase mb-12">CHECKOUT</h1>
+          <form
+            onSubmit={handleSubmit}
+            className="lg:col-span-2 bg-white rounded-lg p-8 lg:p-12"
+          >
+            <h1 className="text-3xl font-bold tracking-wider uppercase mb-12">
+              CHECKOUT
+            </h1>
 
+            {/* Billing Details */}
             <div className="mb-12">
               <h2 className="text-sm font-bold tracking-wider text-accent uppercase mb-6">
                 BILLING DETAILS
@@ -103,6 +109,7 @@ const Checkout = () => {
               </div>
             </div>
 
+            {/* Shipping Info */}
             <div className="mb-12">
               <h2 className="text-sm font-bold tracking-wider text-accent uppercase mb-6">
                 SHIPPING INFO
@@ -129,6 +136,7 @@ const Checkout = () => {
               </div>
             </div>
 
+            {/* Payment Details */}
             <div>
               <h2 className="text-sm font-bold tracking-wider text-accent uppercase mb-6">
                 PAYMENT DETAILS
@@ -138,11 +146,15 @@ const Checkout = () => {
                 <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod}>
                   <div className="flex items-center space-x-2 border rounded p-4 mb-4">
                     <RadioGroupItem value="emoney" id="emoney" />
-                    <Label htmlFor="emoney" className="flex-1 cursor-pointer">e-Money</Label>
+                    <Label htmlFor="emoney" className="flex-1 cursor-pointer">
+                      e-Money
+                    </Label>
                   </div>
                   <div className="flex items-center space-x-2 border rounded p-4">
                     <RadioGroupItem value="cash" id="cash" />
-                    <Label htmlFor="cash" className="flex-1 cursor-pointer">Cash on Delivery</Label>
+                    <Label htmlFor="cash" className="flex-1 cursor-pointer">
+                      Cash on Delivery
+                    </Label>
                   </div>
                 </RadioGroup>
               </div>
@@ -161,13 +173,21 @@ const Checkout = () => {
               )}
             </div>
 
-            <Button type="submit" variant="accent" className="w-full mt-8 hidden lg:flex">
+            <Button
+              type="submit"
+              variant="accent"
+              className="w-full mt-8 hidden lg:flex"
+            >
               CONTINUE & PAY
             </Button>
           </form>
 
+          {/* Summary Section */}
           <div className="bg-white rounded-lg p-8 h-fit sticky top-8">
-            <h2 className="text-lg font-bold tracking-wider uppercase mb-8">SUMMARY</h2>
+            <h2 className="text-lg font-bold tracking-wider uppercase mb-8">
+              SUMMARY
+            </h2>
+
             <div className="space-y-6 mb-8">
               {cart.map((item) => (
                 <div key={item.product.id} className="flex items-center gap-4">
@@ -178,7 +198,9 @@ const Checkout = () => {
                       $ {item.product.price.toLocaleString()}
                     </p>
                   </div>
-                  <span className="text-sm font-bold text-muted-foreground">x{item.quantity}</span>
+                  <span className="text-sm font-bold text-muted-foreground">
+                    x{item.quantity}
+                  </span>
                 </div>
               ))}
             </div>
@@ -193,33 +215,49 @@ const Checkout = () => {
                 <span className="font-bold">$ {shipping}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground uppercase text-sm">VAT (Included)</span>
+                <span className="text-muted-foreground uppercase text-sm">
+                  VAT (Included)
+                </span>
                 <span className="font-bold">$ {vat.toLocaleString()}</span>
               </div>
               <div className="flex justify-between pt-4">
-                <span className="text-muted-foreground uppercase text-sm">Grand Total</span>
-                <span className="font-bold text-accent text-lg">$ {grandTotal.toLocaleString()}</span>
+                <span className="text-muted-foreground uppercase text-sm">
+                  Grand Total
+                </span>
+                <span className="font-bold text-accent text-lg">
+                  $ {grandTotal.toLocaleString()}
+                </span>
               </div>
             </div>
 
-            <Button type="submit" variant="accent" className="w-full mt-8 lg:hidden" onClick={handleSubmit}>
+            <Button
+              type="submit"
+              variant="accent"
+              className="w-full mt-8 lg:hidden"
+              onClick={handleSubmit}
+            >
               CONTINUE & PAY
             </Button>
           </div>
         </div>
       </div>
 
+      {/* Confirmation Dialog */}
       <Dialog open={showConfirmation} onOpenChange={setShowConfirmation}>
         <DialogContent className="max-w-lg">
           <div className="space-y-6">
             <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center">
               <Check className="w-8 h-8 text-white" />
             </div>
+
             <DialogHeader>
               <h2 className="text-3xl font-bold tracking-wider uppercase">
-                THANK YOU<br />FOR YOUR ORDER
+                THANK YOU
+                <br />
+                FOR YOUR ORDER
               </h2>
             </DialogHeader>
+
             <p className="text-muted-foreground">
               You will receive an email confirmation shortly.
             </p>
@@ -234,7 +272,9 @@ const Checkout = () => {
                       $ {cart[0].product.price.toLocaleString()}
                     </p>
                   </div>
-                  <span className="text-sm font-bold text-muted-foreground">x{cart[0].quantity}</span>
+                  <span className="text-sm font-bold text-muted-foreground">
+                    x{cart[0].quantity}
+                  </span>
                 </div>
               )}
               {cart.length > 1 && (
@@ -246,10 +286,16 @@ const Checkout = () => {
 
             <div className="bg-primary text-white rounded-b-lg p-6">
               <p className="text-sm text-white/60 uppercase mb-2">GRAND TOTAL</p>
-              <p className="text-lg font-bold">$ {grandTotal.toLocaleString()}</p>
+              <p className="text-lg font-bold">
+                $ {grandTotal.toLocaleString()}
+              </p>
             </div>
 
-            <Button variant="accent" className="w-full" onClick={handleConfirmOrder}>
+            <Button
+              variant="accent"
+              className="w-full"
+              onClick={handleConfirmOrder}
+            >
               BACK TO HOME
             </Button>
           </div>
@@ -259,6 +305,6 @@ const Checkout = () => {
       <Footer />
     </div>
   );
-}; 
+};
 
 export default Checkout;
