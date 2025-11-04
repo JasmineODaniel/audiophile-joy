@@ -10,6 +10,7 @@ import { useCart } from "@/contexts/CartContext";
 import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
 import { Check } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { sendConfirmationEmail } from "@/lib/sendConfirmationEmail";
 
 const Checkout = () => {
   const { cart, getCartTotal, clearCart } = useCart();
@@ -27,13 +28,26 @@ const Checkout = () => {
     setShowConfirmation(true);
   };
 
-  const handleConfirmOrder = () => {
+  const handleConfirmOrder = async () => {
+    const name = (document.getElementById("name") as HTMLInputElement).value;
+    const email = (document.getElementById("email") as HTMLInputElement).value;
+
+    try {
+      await sendConfirmationEmail(name, email, grandTotal);
+      toast({
+        title: "Order confirmed!",
+        description: "A confirmation email has been sent to your inbox.",
+      });
+    } catch (error) {
+      console.error("Email sending failed:", error);
+      toast({
+        title: "Order confirmed (email failed)",
+        description: "Your order was placed, but the email could not be sent.",
+      });
+    }
+
     clearCart();
     setShowConfirmation(false);
-    toast({
-      title: "Order confirmed!",
-      description: "You will receive an email confirmation shortly.",
-    });
     navigate("/");
   };
 
@@ -69,7 +83,6 @@ const Checkout = () => {
           <form onSubmit={handleSubmit} className="lg:col-span-2 bg-white rounded-lg p-8 lg:p-12">
             <h1 className="text-3xl font-bold tracking-wider uppercase mb-12">CHECKOUT</h1>
 
-            {/* Billing Details */}
             <div className="mb-12">
               <h2 className="text-sm font-bold tracking-wider text-accent uppercase mb-6">
                 BILLING DETAILS
@@ -90,7 +103,6 @@ const Checkout = () => {
               </div>
             </div>
 
-            {/* Shipping Info */}
             <div className="mb-12">
               <h2 className="text-sm font-bold tracking-wider text-accent uppercase mb-6">
                 SHIPPING INFO
@@ -117,7 +129,6 @@ const Checkout = () => {
               </div>
             </div>
 
-            {/* Payment Details */}
             <div>
               <h2 className="text-sm font-bold tracking-wider text-accent uppercase mb-6">
                 PAYMENT DETAILS
@@ -155,10 +166,8 @@ const Checkout = () => {
             </Button>
           </form>
 
-          {/* Summary */}
           <div className="bg-white rounded-lg p-8 h-fit sticky top-8">
             <h2 className="text-lg font-bold tracking-wider uppercase mb-8">SUMMARY</h2>
-            
             <div className="space-y-6 mb-8">
               {cart.map((item) => (
                 <div key={item.product.id} className="flex items-center gap-4">
@@ -200,7 +209,6 @@ const Checkout = () => {
         </div>
       </div>
 
-      {/* Confirmation Modal */}
       <Dialog open={showConfirmation} onOpenChange={setShowConfirmation}>
         <DialogContent className="max-w-lg">
           <div className="space-y-6">
