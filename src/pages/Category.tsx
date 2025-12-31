@@ -5,7 +5,7 @@ import { CategoryCard } from "@/components/CategoryCard";
 import { Button } from "@/components/ui/button";
 import { getProductsByCategory } from "@/lib/products";
 
-const Category = () => {
+const Category = () => { 
   const location = useLocation();
   const category = location.pathname.substring(1);
   const products = getProductsByCategory(category);
